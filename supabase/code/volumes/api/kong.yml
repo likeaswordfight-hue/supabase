@@ -134,7 +134,7 @@ services:
   ## Secure Realtime routes
   - name: realtime-v1-ws
     _comment: 'Realtime: /realtime/v1/* -> ws://realtime:4000/socket/*'
-    url: http://realtime:4000/socket
+    url: http://realtime:4000/socket/
     routes:
       - name: realtime-v1-ws
         strip_path: true
@@ -158,7 +158,7 @@ services:
       - name: realtime-v1-rest
         strip_path: true
         paths:
-          - /realtime/v1/api
+          - /realtime/v1/api/
     plugins:
       - name: cors
       - name: key-auth
