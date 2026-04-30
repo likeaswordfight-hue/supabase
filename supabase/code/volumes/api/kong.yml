@@ -153,7 +153,7 @@ services:
             - anon
   - name: realtime-v1-rest
     _comment: 'Realtime API: /realtime/v1/api/* -> http://realtime:4000/api/*'
-    url: http://realtime:4000/api
+    url: http://realtime:4000/api/
     routes:
       - name: realtime-v1-rest
         strip_path: true
