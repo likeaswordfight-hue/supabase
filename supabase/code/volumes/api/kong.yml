@@ -1,9 +1,6 @@
 _format_version: '2.1'
 _transform: true
 
-###
-### Consumers / Users
-###
 consumers:
   - username: DASHBOARD
   - username: anon
@@ -13,28 +10,18 @@ consumers:
     keyauth_credentials:
       - key: $SUPABASE_SERVICE_KEY
 
-###
-### Access Control List
-###
 acls:
   - consumer: anon
     group: anon
   - consumer: service_role
     group: admin
 
-###
-### Dashboard credentials
-###
 basicauth_credentials:
   - consumer: DASHBOARD
     username: $DASHBOARD_USERNAME
     password: $DASHBOARD_PASSWORD
 
-###
-### API Routes
-###
 services:
-  ## Open Auth routes
   - name: auth-v1-open
     url: http://auth:9999/verify
     routes:
@@ -63,9 +50,7 @@ services:
     plugins:
       - name: cors
 
-  ## Secure Auth routes
   - name: auth-v1
-    _comment: 'GoTrue: /auth/v1/* -> http://auth:9999/*'
     url: http://auth:9999/
     routes:
       - name: auth-v1-all
@@ -84,9 +69,7 @@ services:
             - admin
             - anon
 
-  ## Secure REST routes
   - name: rest-v1
-    _comment: 'PostgREST: /rest/v1/* -> http://rest:3000/*'
     url: http://rest:3000/
     routes:
       - name: rest-v1-all
@@ -105,9 +88,7 @@ services:
             - admin
             - anon
 
-  ## Secure GraphQL routes
   - name: graphql-v1
-    _comment: 'PostgREST: /graphql/v1/* -> http://rest:3000/rpc/graphql'
     url: http://rest:3000/rpc/graphql
     routes:
       - name: graphql-v1-all
@@ -131,9 +112,8 @@ services:
             - admin
             - anon
 
-## Secure Realtime routes
+  ## ROTAS DO REALTIME CORRIGIDAS (Sem Auth do Kong)
   - name: realtime
-    _comment: 'Realtime: /realtime/v1/* -> ws://realtime:4000/socket/*'
     url: http://realtime:4000/socket
     routes:
       - name: realtime
@@ -142,9 +122,8 @@ services:
           - /realtime/v1
     plugins:
       - name: cors
-
+      
   - name: realtime-api
-    _comment: 'Realtime API: /realtime/v1/api/* -> http://realtime:4000/api/*'
     url: http://realtime:4000/api
     routes:
       - name: realtime-api
@@ -154,29 +133,7 @@ services:
     plugins:
       - name: cors
 
-  - name: realtime-api
-    _comment: 'Realtime API: /realtime/v1/api/* -> http://realtime:4000/api/*'
-    url: http://realtime:4000/api
-    routes:
-      - name: realtime-api
-        strip_path: true
-        paths:
-          - /realtime/v1/api
-    plugins:
-      - name: cors
-      - name: key-auth
-        config:
-          hide_credentials: false
-      - name: acl
-        config:
-          hide_groups_header: true
-          allow:
-            - admin
-            - anon
-
-  ## Storage routes: the storage server manages its own auth
   - name: storage-v1
-    _comment: 'Storage: /storage/v1/* -> http://storage:5000/*'
     url: http://storage:5000/
     routes:
       - name: storage-v1-all
@@ -186,9 +143,7 @@ services:
     plugins:
       - name: cors
 
-  ## Edge Functions routes
   - name: functions-v1
-    _comment: 'Edge Functions: /functions/v1/* -> http://functions:9000/*'
     url: http://functions:9000/
     routes:
       - name: functions-v1-all
@@ -198,9 +153,7 @@ services:
     plugins:
       - name: cors
 
-  ## Analytics routes
   - name: analytics-v1
-    _comment: 'Analytics: /analytics/v1/* -> http://logflare:4000/*'
     url: http://analytics:4000/
     routes:
       - name: analytics-v1-all
@@ -208,9 +161,7 @@ services:
         paths:
           - /analytics/v1/
 
-  ## Secure Database routes
   - name: meta
-    _comment: 'pg-meta: /pg/* -> http://pg-meta:8080/*'
     url: http://meta:8080/
     routes:
       - name: meta-all
@@ -227,9 +178,7 @@ services:
           allow:
             - admin
 
-  ## Protected Dashboard - catch all remaining routes
   - name: dashboard
-    _comment: 'Studio: /* -> http://studio:3000/*'
     url: http://studio:3000/
     routes:
       - name: dashboard-all
