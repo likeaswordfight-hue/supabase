@@ -132,19 +132,21 @@ services:
             - anon
 
 ## Secure Realtime routes
-  - name: realtime
-    _comment: 'Realtime: /realtime/v1/* -> ws://realtime:4000/socket/*'
-    url: http://realtime:4000/socket
+  - name: realtime-ws
+    _comment: 'Rota EXATA para o WebSocket'
+    url: http://realtime:4000/socket/websocket
     routes:
-      - name: realtime
+      - name: realtime-ws
         strip_path: true
         paths:
-          - /realtime/v1
+          - /realtime/v1/websocket
     plugins:
       - name: cors
       - name: key-auth
         config:
           hide_credentials: false
+          key_names:
+            - apikey    # <-- A MÁGICA ESTÁ AQUI
       - name: acl
         config:
           hide_groups_header: true
