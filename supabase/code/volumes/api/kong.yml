@@ -136,6 +136,7 @@ services:
     _comment: 'Realtime: /realtime/v1/* -> ws://realtime:4000/socket/*'
     url: http://realtime:4000/socket
     protocol: ws
+    host_header: realtime-dev
     routes:
       - name: realtime-v1-ws
         strip_path: true
@@ -156,6 +157,7 @@ services:
     _comment: 'Realtime: /realtime/v1/* -> ws://realtime:4000/socket/*'
     url: http://realtime:4000/api
     protocol: http
+    host_header: realtime-dev
     routes:
       - name: realtime-v1-rest
         strip_path: true
@@ -172,6 +174,7 @@ services:
           allow:
             - admin
             - anon
+
   ## Storage routes: the storage server manages its own auth
   - name: storage-v1
     _comment: 'Storage: /storage/v1/* -> http://storage:5000/*'
