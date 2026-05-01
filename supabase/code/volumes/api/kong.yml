@@ -122,16 +122,11 @@ services:
           - /realtime/v1
     plugins:
       - name: cors
-      
-  - name: realtime-api
-    url: http://realtime:4000/api
-    routes:
-      - name: realtime-api
-        strip_path: true
-        paths:
-          - /realtime/v1/api
-    plugins:
-      - name: cors
+      - name: request-transformer
+        config:
+          add:
+            headers:
+              - x-tenant-id:realtime-dev
 
   - name: storage-v1
     url: http://storage:5000/
